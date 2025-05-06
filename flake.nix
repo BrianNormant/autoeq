@@ -10,10 +10,11 @@
 			project_name = "Name";
 		in flake-parts.lib.mkFlake {inherit inputs;} {
 			imports = [
-				# flake module to import
+				inputs.flake-parts.flakeModules.easyOverlay
 			];
 			systems = ["x86_64-linux"];
-			perSystem = {config, pkgs, system, ... }: {
+			perSystem = {config, pkgs, system, ... }: rec {
+				overlayAttrs = { inherit (packages) autoeq; };
 				packages = rec {
 					autoeq = pkgs.python311.pkgs.buildPythonApplication rec {
 						pname = "autoeq";
